@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom'
+
 import './App.css';
+import Signup from './components/signup_component';
+import Login from './components/login_component';
+import UserDetails from './components/userDetails';
 
 function App() {
+  const isLoggedIn = window.localStorage.getItem("loggedIn")
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='App'>
+        <div className='auth-wrapper'>
+          <div className='auth-inner'>
+            <Routes>
+              <Route exact path='/' element={ isLoggedIn==='true' ? <UserDetails /> :<Login /> } />
+              <Route exact path='/login' element={ <Login /> } />
+              <Route exact path='/signup' element={ <Signup /> } />
+              <Route exact path='/userDetails' element={ <UserDetails /> } />
+            </Routes>
+          </div>
+        </div>
+      </div>
+    
+    </>
   );
 }
 
