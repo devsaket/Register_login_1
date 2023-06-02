@@ -6,8 +6,6 @@ export default class UserDetails extends Component {
         this.state= {
             userData: "",
         };
-
-
     }
 
     componentDidMount(){
@@ -33,8 +31,9 @@ export default class UserDetails extends Component {
                 window.location.href = "./login"
             }
         })
-        
-    }    logout = () => {
+    }    
+    
+    logout = () => {
         window.localStorage.clear()
         window.location.href = "./login"
     }
@@ -47,7 +46,6 @@ export default class UserDetails extends Component {
 
                 Email
                 <h1>{ this.state.userData.email }</h1>
-
 
                 <button onClick={this.logout} className='btn btn-danger'>Logout</button>
             </div>

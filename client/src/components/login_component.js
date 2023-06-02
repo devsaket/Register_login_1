@@ -3,21 +3,23 @@ import React, { Component } from 'react'
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             email: '', password: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e){
+    
+
+    handleSubmit(e) {
         e.preventDefault();
 
         const { email, password } = this.state;
         console.log(email, password);
 
         fetch("http://localhost:5000/login-user", {
-            method: "POST", 
+            method: "POST",
             crossDomain: true,
             headers: {
                 "Content-Type": "application/json",
@@ -26,16 +28,16 @@ export default class Login extends Component {
             },
             body: JSON.stringify({ email, password, }),
         })
-        .then((res)=> res.json())
-        .then((data)=>{
-            console.log(data, "userLogin")
-            if(data.status === "ok"){
-                alert("Login Successful!")
-                window.localStorage.setItem("token", data.data)
-                window.localStorage.setItem("loggedIn", true)
-                window.location.href = "./userDetails"
-            }
-        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data, "userLogin")
+                if (data.status === "ok") {
+                    alert("Login Successful!")
+                    window.localStorage.setItem("token", data.data)
+                    window.localStorage.setItem("loggedIn", true)
+                    window.location.href = "./userDetails"
+                }
+            })
     }
 
     render() {
@@ -43,15 +45,16 @@ export default class Login extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <h3>Login Component</h3>
+                    <div id="recaptcha-container"></div>
 
                     <div className='mb-3'>
                         <label>Email Address</label>
-                        <input type='email' className='form-control' placeholder='Enter Email Address' onChange={(e)=> this.setState({ email: e.target.value }) } />
+                        <input type='email' className='form-control' placeholder='Enter Email Address' onChange={(e) => this.setState({ email: e.target.value })} />
                     </div>
 
                     <div className='mb-3'>
                         <label>Password</label>
-                        <input type='password' className='form-control' placeholder='Enter Password' onChange={(e)=> this.setState({ password: e.target.value }) } />
+                        <input type='password' className='form-control' placeholder='Enter Password' onChange={(e) => this.setState({ password: e.target.value })} />
                     </div>
 
                     <div className='mb-3'>
@@ -67,7 +70,7 @@ export default class Login extends Component {
                     <p className='forgot-password text-right'>
                         <a href='/signup'>Sign Up</a>
                     </p>
-                    
+
                 </form>
             </div>
         )
