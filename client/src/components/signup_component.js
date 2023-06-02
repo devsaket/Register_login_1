@@ -19,8 +19,8 @@ export default class Signup extends Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.state.verified) {
-            const { fname, lname, email, password } = this.state;
-            console.log(fname, lname, email, password);
+            const { fname, lname, email, mobile, password } = this.state;
+            // console.log(fname, lname, mobile, email, password);
 
             fetch("http://localhost:5000/register", {
                 method: "POST",
@@ -30,13 +30,13 @@ export default class Signup extends Component {
                     Accept: "application/json",
                     "Access-Control-Allow-Origin": "*",
                 },
-                body: JSON.stringify({ fname, lname, email, password }),
+                body: JSON.stringify({ fname, lname, mobile, email, password }),
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data, "userRegister")
+                    // console.log(data, "userRegister")
                 })
-        }else{
+        } else {
             alert("Please Verify Mobile")
         }
     }
@@ -68,7 +68,7 @@ export default class Signup extends Component {
             }).catch((error) => {
                 // Error; SMS not sent
                 // ...
-                console.log(error)
+                // console.log(error)
             });
     }
 
@@ -76,7 +76,7 @@ export default class Signup extends Component {
         window.confirmationResult.confirm(this.state.otp).then((result) => {
             // User signed in successfully.
             const user = result.user;
-            console.log(user)
+            // console.log(user)
             alert("Verification Done")
             this.setState({ verified: true, verifyOTP: false })
             // ...
@@ -121,13 +121,13 @@ export default class Signup extends Component {
                         <label>Mobile No.</label>
                         <input type='text' className='form-control' placeholder='Enter Mobile Number' onChange={(e) => this.changeMobile(e)} />
 
-                        { this.state.verifyButton ?
-                            <input type='button' value={ this.state.verified ? "Verified" : "Verify" } style={{ backgroundColor: '#0163d2', width: '100%', padding: 8, color: 'white', border: 'none' }} onClick={this.onSignInSubmit} />
+                        {this.state.verifyButton ?
+                            <input type='button' value={this.state.verified ? "Verified" : "Verify"} style={{ backgroundColor: '#0163d2', width: '100%', padding: 8, color: 'white', border: 'none' }} onClick={this.onSignInSubmit} />
                             : null
                         }
                     </div>
 
-                    { this.state.verifyOTP ?
+                    {this.state.verifyOTP ?
                         <div className='mb-3'>
                             <label>OTP</label>
                             <input type='number' className='form-control' placeholder='Enter OTP' onChange={(e) => this.setState({ otp: e.target.value })} />
@@ -136,15 +136,21 @@ export default class Signup extends Component {
                         : null
                     }
 
-                    <div className='mb-3'>
-                        <label>Password</label>
-                        <input type='password' className='form-control' placeholder='Password' onChange={(e) => this.setState({ password: e.target.value })} />
-                    </div>
+                    {this.state.verified ?
+                        <>
+                            <div className='mb-3'>
+                                <label>Password</label>
+                                <input type='password' className='form-control' placeholder='Password' onChange={(e) => this.setState({ password: e.target.value })} />
+                            </div>
 
-                    <div className='d-grid'>
-                        <button type='submit' className='btn btn-primary' id='signUpBtn'>Submit</button>
-                    </div>
-                    <p className='forgot-password text-right'> Already a member
+                            <div className='d-grid'>
+                                <button type='submit' className='btn btn-primary' id='signUpBtn'>Submit</button>
+                            </div>
+                        </>
+                        : null
+                    }
+                    
+                    <p className='forgot-password text-right mt-5'> Already a member
                         <a href='/signup'>Sign In</a>
                     </p>
 

@@ -24,7 +24,7 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 const UserInfo = require('./server/models/userDetails')
 
 app.post("/register", async(req, res)=>{
-    const { fname, lname, email, password } = req.body;
+    const { fname, lname, email, mobile, password } = req.body;
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     try{
@@ -34,7 +34,7 @@ app.post("/register", async(req, res)=>{
             res.send({ error: "User Exists" })
         }
 
-        await UserInfo.create({ fname, lname, email, password: encryptedPassword })
+        await UserInfo.create({ fname, lname, email, mobile, password: encryptedPassword })
 
         res.send({ status:"ok" })
     } catch (error) {
